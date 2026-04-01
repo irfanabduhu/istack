@@ -1,6 +1,6 @@
 ---
 description: "Generate a single short story (1,000–5,000 words) in a specific author's literary style."
-argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"]"
+argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"] [--style \"early/late/specific phase\"] [--characters \"character descriptions\"]"
 ---
 
 # Tale
@@ -15,6 +15,8 @@ Generate a short story from: $ARGUMENTS
 - **Premise**: Everything not a flag — the story's seed.
 - **Period** (optional): `--period "..."` — time/place. Defaults to the author's typical era.
 - **Tone** (optional): `--tone "..."` — emotional register override.
+- **Style** (optional): `--style "..."` — target a specific phase or variant of the author's career (e.g., "early", "late", "experimental", "Paris years"). Sharpens voice calibration to that period's techniques. Defaults to the author's most characteristic mode.
+- **Characters** (optional): `--characters "..."` — user-defined character specifications. Comma-separated names with optional descriptions (e.g., `--characters "Elena, a retired cartographer; Jun, her estranged nephew"`). These override the auto-generated cast — the story plan must incorporate them as given, adapting names and roles to fit the author's world.
 
 ---
 
@@ -22,7 +24,7 @@ Generate a short story from: $ARGUMENTS
 
 ### Voice Calibration
 
-Read `**/voice-calibration.md` within this plugin's directory using the Glob tool. Perform the full ten-dimension analysis for the named author.
+Read `**/voice-calibration.md` within this plugin's directory using the Glob tool. Perform the full ten-dimension analysis for the named author. If `--style` is provided, narrow the calibration to that specific phase — e.g., "early Hemingway" means *In Our Time* rhythms, not *The Old Man and the Sea*.
 
 ### The Imitation Test
 
@@ -31,7 +33,7 @@ Compose an opening sentence. Could a well-read person guess the author from that
 ### Story Plan
 
 - **Opening**: How would THIS author begin THIS story?
-- **Characters**: 1–3 characters. Name them in the author's naming style.
+- **Characters**: If `--characters` provided, use those characters as the cast — adapt their descriptions to fit the author's world while preserving names and core identities. Otherwise, create 1–3 characters named in the author's naming style.
 - **Arc**: In the author's structural terms — Chekhov: revealed, not resolved. O'Connor: grace through violence. Borges: a puzzle that inverts itself.
 - **POV and tense**: Per the voice calibration.
 - **Length**: 1,000–5,000 words. Shorter for spare authors, longer for expansive ones.

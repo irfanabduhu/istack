@@ -1,6 +1,6 @@
 ---
 description: "Generate a full novel with chapters (40,000–80,000 words) in a specific author's literary style."
-argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"]"
+argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"] [--style \"early/late/specific phase\"] [--characters \"character descriptions\"]"
 ---
 
 # Novel
@@ -15,12 +15,14 @@ Generate a novel from: $ARGUMENTS
 - **Premise**: The novel's seed.
 - **Period** (optional): `--period "..."` — time/place.
 - **Tone** (optional): `--tone "..."` — register override.
+- **Style** (optional): `--style "..."` — target a specific phase of the author's career (e.g., "early Faulkner", "late Henry James", "experimental"). Sharpens voice calibration to that period's techniques. Defaults to the author's most characteristic mode.
+- **Characters** (optional): `--characters "..."` — user-defined character specifications. Comma-separated names with optional descriptions (e.g., `--characters "Maren, a disgraced diplomat; Theo, her driver who knows too much; Lúcia, the archivist"`). These seed the cast — the plan must incorporate them, adapting roles and relationships to fit the author's world. Additional characters may be added as needed.
 
 ---
 
 ## Phase 1: Deep Voice Calibration
 
-Read `**/voice-calibration.md` using the Glob tool. Perform the ten-dimension analysis with extra depth — the voice must sustain 40,000–80,000 words:
+Read `**/voice-calibration.md` using the Glob tool. Perform the ten-dimension analysis with extra depth — the voice must sustain 40,000–80,000 words. If `--style` is provided, anchor the entire calibration to that specific phase (e.g., "late James" means *The Golden Bowl*-era syntax, not *Daisy Miller*):
 
 1. Complete the standard analysis.
 2. **Extended inventory**: How the author handles chapter openings/endings, subplots, passage of time across a full arc, and the proportion of dialogue vs. narration vs. interiority.
@@ -33,7 +35,7 @@ Read `**/voice-calibration.md` using the Glob tool. Perform the ten-dimension an
 Design the novel's architecture:
 
 1. **Premise expansion**: Full world — setting, context, central conflict.
-2. **Characters** (4–8 major): Name, voice, arc, relationships, the author's stance toward them.
+2. **Characters** (4–8 major): If `--characters` is provided, these seed the cast — preserve their names and core identities, flesh out voice/arc/relationships in the author's style. Additional characters may be created as needed. Otherwise, generate the full cast. Name, voice, arc, relationships, the author's stance toward them.
 3. **Chapter outline** (15–30 chapters): POV, summary, key scenes, word count, connections.
 4. **Subplot tracking**: Which chapters each subplot appears in.
 5. **Thematic map**: What the plot is about beneath the plot.

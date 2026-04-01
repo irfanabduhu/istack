@@ -1,6 +1,6 @@
 ---
 description: "Generate a novella (10,000–30,000 words) in a specific author's literary style."
-argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"]"
+argument-hint: "--author \"Author Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"] [--style \"early/late/specific phase\"] [--characters \"character descriptions\"]"
 ---
 
 # Saga
@@ -15,6 +15,8 @@ Generate a novella from: $ARGUMENTS
 - **Premise**: The story's seed.
 - **Period** (optional): `--period "..."` — time/place.
 - **Tone** (optional): `--tone "..."` — register override.
+- **Style** (optional): `--style "..."` — target a specific phase of the author's career (e.g., "early", "late", "experimental"). Sharpens voice calibration to that period's techniques. Defaults to the author's most characteristic mode.
+- **Characters** (optional): `--characters "..."` — user-defined character specifications. Comma-separated names with optional descriptions (e.g., `--characters "Saul, a typesetter losing his sight; Dina, the union organizer next door"`). These seed the cast — the plan must incorporate them. Additional characters may be added as needed.
 
 ---
 
@@ -22,7 +24,7 @@ Generate a novella from: $ARGUMENTS
 
 ### Voice Calibration
 
-Read `**/voice-calibration.md` using the Glob tool. Perform the full ten-dimension analysis.
+Read `**/voice-calibration.md` using the Glob tool. Perform the full ten-dimension analysis. If `--style` is provided, narrow the calibration to that specific phase of the author's career.
 
 ### The Imitation Test
 
@@ -32,7 +34,7 @@ Compose an opening sentence. Recognizable? If not, recalibrate.
 
 1. **Premise expansion**: Who, where, when, what's at stake.
 2. **Section outline** (8–15 sections): Per section — what happens, key scene, what shifts. Total: 10,000–30,000 words.
-3. **Character profiles**: Name (author's style), role, voice, arc.
+3. **Character profiles**: If `--characters` is provided, use them as the core cast — preserve names and identities, flesh out role/voice/arc. Additional characters may be added. Otherwise, create from scratch. Name (author's style), role, voice, arc.
 4. **Thematic throughline**: What is this ABOUT beneath the plot?
 5. **Pacing map**: Where it accelerates, where it dilates. Match the author's rhythms.
 6. **Voice notes**: 3–5 specific reminders for sustaining this author's style over long stretches.

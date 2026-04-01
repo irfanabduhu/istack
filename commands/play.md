@@ -1,6 +1,6 @@
 ---
 description: "Generate a theatrical play with acts and scenes in a specific playwright's style."
-argument-hint: "--author \"Playwright Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"]"
+argument-hint: "--author \"Playwright Name\" [premise] [--period \"time/setting\"] [--tone \"tone\"] [--style \"early/late/specific phase\"] [--characters \"character descriptions\"]"
 ---
 
 # Play
@@ -15,6 +15,8 @@ Generate a play from: $ARGUMENTS
 - **Premise**: The play's central conflict.
 - **Period** (optional): `--period "..."` — time/place.
 - **Tone** (optional): `--tone "..."` — register override.
+- **Style** (optional): `--style "..."` — target a specific phase of the playwright's career (e.g., "early Pinter", "late Beckett", "absurdist Stoppard"). Sharpens voice calibration to that period's techniques. Defaults to the playwright's most characteristic mode.
+- **Characters** (optional): `--characters "..."` — user-defined dramatis personae. Comma-separated names with optional descriptions (e.g., `--characters "Vera, a retired censor; Kolya, her former colleague; The Visitor"`). These become the cast — the plan must build around them. Additional minor characters may be added as needed.
 
 ---
 
@@ -22,7 +24,7 @@ Generate a play from: $ARGUMENTS
 
 ### Voice Calibration for Drama
 
-Read `**/voice-calibration.md` using the Glob tool. Adapt the analysis for dramatic writing:
+Read `**/voice-calibration.md` using the Glob tool. Adapt the analysis for dramatic writing. If `--style` is provided, narrow to that specific phase of the playwright's career:
 
 1. **Dialogue architecture** (PRIMARY): Sentence length, interruptions, silence/pauses, monologue vs. rapid exchange, subtext density. (Pinter: loaded pauses. Shaw: rhetorical speeches. Beckett: fragments. Mamet: staccato.)
 2. **Stage direction style**: Minimal (Beckett), novelistic (Shaw), poetic (Williams), functional, or absent.
@@ -37,7 +39,7 @@ Compose 4–6 lines of dialogue. Recognizable? If not, recalibrate.
 
 ### Play Plan
 
-1. **Dramatis personae** (3–8): Name, description, speech pattern, role, arc.
+1. **Dramatis personae** (3–8): If `--characters` is provided, use them as the core cast — preserve names and descriptions, develop speech patterns/roles/arcs in the playwright's style. Additional minor characters may be added. Otherwise, create from scratch. Name, description, speech pattern, role, arc.
 2. **Act/scene structure**: Scenes with setting, characters, events, stakes.
 3. **Central conflict**: The collision beneath the plot.
 4. **Setting**: The set IS a character.

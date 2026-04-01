@@ -1,6 +1,6 @@
 ---
 description: "Generate a poetry collection (10–20 poems) around a theme in a specific poet's style."
-argument-hint: "--author \"Poet Name\" [theme] [--count N] [--period \"time/setting\"]"
+argument-hint: "--author \"Poet Name\" [theme] [--count N] [--period \"time/setting\"] [--style \"early/late/specific phase\"] [--characters \"character descriptions\"]"
 ---
 
 # Verse
@@ -16,6 +16,8 @@ Generate a poetry collection from: $ARGUMENTS
 - **Count** (optional): `--count N` — number of poems (default: 12, range: 10–20).
 - **Period** (optional): `--period "..."` — setting.
 - **Tone** (optional): `--tone "..."` — register override.
+- **Style** (optional): `--style "..."` — target a specific phase of the poet's career (e.g., "early Plath", "late Yeats", "Ariel-era"). Sharpens voice calibration to that period's techniques, forms, and obsessions. Defaults to the poet's most characteristic mode.
+- **Characters** (optional): `--characters "..."` — recurring figures, addressees, or personae for the collection (e.g., `--characters "a lighthouse keeper; the keeper's dead wife; the sea itself"`). These populate the poems as speakers, subjects, or presences — adapted to the poet's mode.
 
 ---
 
@@ -23,7 +25,7 @@ Generate a poetry collection from: $ARGUMENTS
 
 ### Voice Calibration for Poetry
 
-Read `**/voice-calibration.md` using the Glob tool. Adapt the analysis for verse — several dimensions work differently in poetry:
+Read `**/voice-calibration.md` using the Glob tool. Adapt the analysis for verse — several dimensions work differently in poetry. If `--style` is provided, anchor to that specific phase (e.g., "Ariel-era Plath" vs. "Colossus-era Plath" have dramatically different line energy):
 
 1. **Line architecture**: Line length, enjambment patterns, sentence-to-line relationship.
 2. **Stanza rhythm**: Couplets, tercets, quatrains, irregular. How breaks function.
@@ -46,6 +48,7 @@ Compose a stanza — 3–5 lines. Recognizable? If not, recalibrate.
 - **Arc**: Emotional trajectory from first poem to last.
 - **Formal variety**: Within the poet's range, vary length and density.
 - **Recurring images**: 3–5 motifs threading through without repetition.
+- **Characters/personae**: If `--characters` is provided, weave them through the collection as speakers, addressees, or recurring presences.
 
 ---
 
