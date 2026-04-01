@@ -13,7 +13,7 @@ A monorepo of Claude Code plugins.
 
 ```bash
 # Add marketplace (one-time)
-claude plugin marketplace add irfanabduhu/istack
+claude plugin marketplace add irfanabduhu/rune
 
 # Install individual plugins
 claude plugin install fablesmith@irfanabduhu
