@@ -12,8 +12,17 @@
       "author": {
         "name": "Irfanul Hoque"
       },
-      "source": "./",
+      "source": "./fablesmith",
       "category": "creativity"
+    },
+    {
+      "name": "readweave",
+      "description": "Distill books, web writings, video, audio, documentation, and discussions into elegant presentations and reading guides. Includes /read, /master, /study, /narrate, /paper, /survey, /digest, /crawl, /research, /watch, /playlist, /listen, /podcast, /docs, and /thread commands.",
+      "author": {
+        "name": "Irfanul Hoque"
+      },
+      "source": "./readweave",
+      "category": "education"
     }
   ]
 }

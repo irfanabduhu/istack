@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — A Discord</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --parchment: #F5F0E6;
+    --parchment-dark: #E8E0D0;
+    --ink: #2C2416;
+    --ink-light: #5C4D3A;
+    --ink-lighter: #8B7D6B;
+    --accent: #8B4513;
+    --accent-light: #A0522D;
+    --gold: #B8860B;
+    --divider: #D4C4A8;
+    --shadow: rgba(44, 36, 22, 0.08);
+    /* Forum-specific */
+    --forum-bg: #F0EBE0;
+    --forum-border: #D9D0C0;
+    --forum-hover: #EAE4D6;
+    --forum-thread: #C8BBA8;
+    --upvote: #8B6914;
+    --upvote-active: #B8860B;
+    --comment-indent: 1.5rem;
+  }
+
+  [data-theme="night"] {
+    --parchment: #2A2520;
+    --parchment-dark: #1F1B17;
+    --ink: #E8E0D0;
+    --ink-light: #C4B8A8;
+    --ink-lighter: #8B7E72;
+    --accent: #CD853F;
+    --accent-light: #DEB887;
+    --gold: #DAA520;
+    --divider: #3D3830;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --forum-bg: #252118;
+    --forum-border: #3D3528;
+    --forum-hover: #302A20;
+    --forum-thread: #4A4030;
+    --upvote: #DAA520;
+    --upvote-active: #F0C040;
+  }
+  [data-theme="night"] body {
+    background: #1A1714;
+    background-image: none;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 20px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'EB Garamond', 'Georgia', serif;
+    background: var(--parchment);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at top left, rgba(139, 69, 19, 0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(139, 69, 19, 0.03) 0%, transparent 50%);
+  }
+
+  /* ───── CONTAINER ───── */
+  .manuscript {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  @media (max-width: 600px) {
+    html { font-size: 18px; }
+    .manuscript { padding: 2.5rem 1.5rem 4rem; }
+  }
+
+  /* ───── HEADER ───── */
+  .narration-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .narration-meta {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-lighter);
+    margin-bottom: 0.75rem;
+  }
+
+  .narration-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .narration-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--ink-light);
+    display: inline;
+  }
+
+  .narration-byline {
+    font-size: 0.9rem;
+    color: var(--ink-lighter);
+    font-style: italic;
+  }
+
+  .narration-byline::before {
+    content: "✦";
+    display: block;
+    margin: 0.75rem auto;
+    color: var(--gold);
+    font-size: 0.8rem;
+    font-style: normal;
+  }
+
+  /* ───── SECTIONS ───── */
+  .section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .section-ornament {
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--divider);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+  }
+
+  .section-ornament::before {
+    content: "* * * ⁂ * * *";
+    font-family: 'EB Garamond', serif;
+    color: var(--ink-lighter);
+  }
+
+  /* ───── PARAGRAPHS ───── */
+  p {
+    margin-bottom: 1rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .narrator {
+    font-style: italic;
+    color: var(--ink-light);
+  }
+
+  .narrator em {
+    font-style: normal;
+  }
+
+  /* ───── DROP CAPS ───── */
+  .drop-cap::first-letter {
+    float: left;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    padding-right: 0.15em;
+    padding-top: 0.1em;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* ───── BLOCKQUOTES ───── */
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: linear-gradient(to right, var(--parchment-dark) 0%, transparent 100%);
+    border-radius: 0 8px 8px 0;
+  }
+
+  blockquote p {
+    font-family: 'Crimson Text', 'EB Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    text-align: left;
+    font-style: italic;
+  }
+
+  blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  blockquote .attribution {
+    display: block;
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    font-style: normal;
+    color: var(--ink-lighter);
+    text-align: right;
+  }
+
+  blockquote .attribution::before {
+    content: "— ";
+  }
+
+  .pull-quote {
+    border-left: none;
+    background: none;
+    text-align: center;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  .pull-quote::before,
+  .pull-quote::after {
+    content: "❧";
+    display: block;
+    color: var(--divider);
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+
+  /* ───── EMPHASIS ───── */
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* ───── DIVIDERS ───── */
+  hr {
+    border: none;
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--divider);
+  }
+
+  hr::before {
+    content: "* * *";
+    letter-spacing: 0.5em;
+  }
+
+  /* ───── SOURCE SECTION ───── */
+  .source-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--divider);
+    text-align: center;
+  }
+
+  .source-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-lighter);
+    margin-bottom: 1rem;
+  }
+
+  .source-info {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  .source-info em { font-style: italic; }
+
+  /* ═══════════════════════════════════════════════════
+     THE AGORA — Forum Discussion Section
+     ═══════════════════════════════════════════════════ */
+
+  .agora-transition {
+    text-align: center;
+    margin: 3rem 0 2rem;
+    padding: 2rem 0;
+    border-top: 2px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .agora-transition-ornament {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    margin-bottom: 0.75rem;
+  }
+
+  .agora-transition-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .agora-transition-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-lighter);
+    font-style: italic;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Forum header bar */
+  .forum-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.8rem;
+    background: var(--forum-bg);
+    border: 1px solid var(--forum-border);
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 0;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .forum-platform {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .forum-stats {
+    font-size: 0.55rem;
+    color: var(--ink-lighter);
+  }
+
+  .forum-post-title {
+    padding: 0.8rem;
+    background: var(--forum-bg);
+    border-left: 1px solid var(--forum-border);
+    border-right: 1px solid var(--forum-border);
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .forum-post-title h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 0.25rem;
+  }
+
+  .forum-post-meta {
+    font-size: 0.55rem;
+    color: var(--ink-lighter);
+  }
+
+  /* Comment list */
+  .forum-comments {
+    border-left: 1px solid var(--forum-border);
+    border-right: 1px solid var(--forum-border);
+    border-bottom: 1px solid var(--forum-border);
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+  }
+
+  /* Individual comment */
+  .comment {
+    padding: 0.7rem 0.8rem;
+    border-top: 1px solid var(--forum-border);
+    transition: background 0.15s ease;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  .comment:hover {
+    background: var(--forum-hover);
+  }
+
+  /* Threaded replies — indented */
+  .comment.reply-1 { padding-left: calc(0.8rem + var(--comment-indent)); }
+  .comment.reply-2 { padding-left: calc(0.8rem + var(--comment-indent) * 2); }
+  .comment.reply-3 { padding-left: calc(0.8rem + var(--comment-indent) * 3); }
+
+  .comment.reply-1,
+  .comment.reply-2,
+  .comment.reply-3 {
+    border-left: 2px solid var(--forum-thread);
+    margin-left: 0.8rem;
+  }
+  .comment.reply-2 { margin-left: calc(0.8rem + var(--comment-indent)); }
+  .comment.reply-3 { margin-left: calc(0.8rem + var(--comment-indent) * 2); }
+
+  @media (max-width: 600px) {
+    .comment.reply-1,
+    .comment.reply-2,
+    .comment.reply-3 {
+      padding-left: calc(0.6rem + 1rem);
+      margin-left: 0.5rem;
+    }
+    .comment.reply-2 { margin-left: calc(0.5rem + 1rem); }
+    .comment.reply-3 { margin-left: calc(0.5rem + 2rem); }
+  }
+
+  /* Comment header: username, time, points */
+  .comment-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  .comment-user {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .comment-tag {
+    font-size: 0.48rem;
+    font-weight: 500;
+    padding: 0.08rem 0.3rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .comment-tag.practitioner {
+    background: rgba(139, 105, 20, 0.12);
+    color: var(--gold);
+  }
+
+  .comment-tag.academic {
+    background: rgba(139, 69, 19, 0.10);
+    color: var(--accent);
+  }
+
+  .comment-tag.contrarian {
+    background: rgba(180, 60, 60, 0.10);
+    color: #9B4444;
+  }
+
+  [data-theme="night"] .comment-tag.contrarian {
+    background: rgba(200, 100, 100, 0.15);
+    color: #D08888;
+  }
+
+  .comment-tag.builder {
+    background: rgba(60, 120, 80, 0.10);
+    color: #4A8A5A;
+  }
+
+  [data-theme="night"] .comment-tag.builder {
+    background: rgba(80, 160, 100, 0.15);
+    color: #70C090;
+  }
+
+  .comment-time {
+    font-size: 0.55rem;
+    color: var(--ink-lighter);
+  }
+
+  .comment-score {
+    font-size: 0.55rem;
+    color: var(--upvote);
+    font-weight: 500;
+  }
+
+  .comment-score .arrow {
+    font-size: 0.5rem;
+    margin-right: 0.1rem;
+  }
+
+  /* Comment body */
+  .comment-body {
+    font-size: 0.65rem;
+    line-height: 1.6;
+    color: var(--ink-light);
+    text-align: left;
+    hyphens: none;
+  }
+
+  .comment-body p {
+    margin-bottom: 0.5rem;
+    text-align: left;
+    hyphens: none;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.65rem;
+    line-height: 1.6;
+  }
+
+  .comment-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .comment-body em {
+    font-style: italic;
+  }
+
+  .comment-body strong {
+    font-weight: 600;
+  }
+
+  .comment-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    background: var(--parchment-dark);
+    padding: 0.08rem 0.25rem;
+    border-radius: 3px;
+  }
+
+  .comment-body blockquote {
+    margin: 0.4rem 0;
+    padding: 0.3rem 0.6rem;
+    border-left: 2px solid var(--forum-thread);
+    background: none;
+    border-radius: 0;
+    font-style: italic;
+    color: var(--ink-lighter);
+  }
+
+  .comment-body blockquote p {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.6rem;
+    font-style: italic;
+    color: var(--ink-lighter);
+    line-height: 1.5;
+  }
+
+  /* Highlight particularly insightful comments */
+  .comment.highlighted {
+    background: linear-gradient(to right, rgba(184, 134, 11, 0.06) 0%, transparent 100%);
+    border-left-color: var(--gold);
+  }
+
+  .comment.highlighted .comment-user {
+    color: var(--gold);
+  }
+
+  /* Collapsed/folded reply indicator */
+  .comment-fold {
+    font-size: 0.52rem;
+    color: var(--ink-lighter);
+    font-style: italic;
+    padding: 0.3rem 0.8rem;
+    border-top: 1px solid var(--forum-border);
+    background: var(--forum-bg);
+  }
+
+  /* ───── THEME TOGGLE ───── */
+  .theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--parchment);
+    color: var(--ink-light);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px var(--shadow);
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+
+  .theme-toggle:hover {
+    background: var(--ink);
+    color: var(--parchment);
+    transform: scale(1.05);
+  }
+
+  /* ───── SCROLL TO TOP ───── */
+  .scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 76px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--parchment);
+    color: var(--ink-light);
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px var(--shadow);
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 100;
+  }
+
+  .scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .scroll-top:hover {
+    background: var(--ink);
+    color: var(--parchment);
+  }
+
+  /* ───── PROGRESS BAR ───── */
+  .progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--parchment-dark);
+    z-index: 1000;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    width: 0%;
+    transition: width 0.1s ease;
+  }
+
+  /* ───── PRINT STYLES ───── */
+  @media print {
+    .theme-toggle,
+    .scroll-top,
+    .progress-container {
+      display: none !important;
+    }
+
+    body {
+      background: white !important;
+      color: black !important;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+
+    .manuscript {
+      max-width: none;
+      padding: 0;
+    }
+
+    blockquote {
+      border-left: 2pt solid #666;
+      background: none !important;
+    }
+
+    .comment { break-inside: avoid; }
+    .comment-tag { border: 1px solid #ccc; }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+  }
+
+  /* ───── SELECTION ───── */
+  ::selection {
+    background: rgba(139, 69, 19, 0.15);
+    color: var(--ink);
+  }
+
+  /* ───── SCROLLBAR ───── */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--parchment-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--divider); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-lighter); }
+</style>
+</head>
+<body>
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <main class="manuscript">
+    <header class="narration-header">
+      <div class="narration-meta">A Discord</div>
+      <h1 class="narration-title">{{TITLE}}</h1>
+      <p class="narration-subtitle">{{SUBTITLE}}</p>
+      <p class="narration-byline">Based on the work by {{AUTHOR}}</p>
+    </header>
+
+    <!-- The Invitation -->
+    <section class="section" id="invitation">
+      {{INVITATION_CONTENT}}
+    </section>
+
+    <div class="section-ornament"></div>
+
+    <!-- The Path Unfolds -->
+    <section class="section" id="path">
+      {{PATH_CONTENT}}
+    </section>
+
+    <div class="section-ornament"></div>
+
+    <!-- The Parting View -->
+    <section class="section" id="parting">
+      {{PARTING_CONTENT}}
+    </section>
+
+    <!-- The Agora — Forum Discussion -->
+    <div class="agora-transition">
+      <div class="agora-transition-ornament">&#x2766; &#x2767;</div>
+      <div class="agora-transition-title">The Agora</div>
+      <div class="agora-transition-subtitle">
+        What follows is a simulated discussion—the kind of debate this work might provoke
+        among practitioners, skeptics, and fellow travelers in an online forum.
+      </div>
+    </div>
+
+    <section class="section" id="agora">
+      <div class="forum-header">
+        <span class="forum-platform">{{FORUM_PLATFORM}}</span>
+        <span class="forum-stats">{{FORUM_STATS}}</span>
+      </div>
+      <div class="forum-post-title">
+        <h3>{{FORUM_POST_TITLE}}</h3>
+        <div class="forum-post-meta">{{FORUM_POST_META}}</div>
+      </div>
+      <div class="forum-comments">
+        {{FORUM_COMMENTS}}
+      </div>
+    </section>
+
+    <!-- The Scroll's Edge -->
+    <section class="source-section" id="source">
+      <div class="source-title">Source</div>
+      <div class="source-info">
+        {{SOURCE_CONTENT}}
+      </div>
+    </section>
+  </main>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">&#x2191;</button>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">&#x25D0;</button>
+
+  <script>
+    // Progress bar
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress);
+    window.addEventListener('resize', updateProgress);
+
+    // Scroll to top button
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+
+    const savedTheme = localStorage.getItem('discord-theme');
+    if (savedTheme === 'night') {
+      html.setAttribute('data-theme', 'night');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      if (html.getAttribute('data-theme') === 'night') {
+        html.removeAttribute('data-theme');
+        localStorage.setItem('discord-theme', 'day');
+      } else {
+        html.setAttribute('data-theme', 'night');
+        localStorage.setItem('discord-theme', 'night');
+      }
+    });
+  </script>
+</body>
+</html>
