@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "fablesmith",
-      "description": "Generate creative fiction in markdown, mimicking specific authors' styles. Includes /tale (short story), /tales (story collection), /saga (novella), /novel (full novel), /play (theatrical play), /verse (poetry collection), and /fable (fable/parable) commands.",
+      "description": "Original fiction in any author's authentic voice.",
       "author": {
         "name": "Irfanul Hoque"
       },
@@ -17,12 +17,30 @@
     },
     {
       "name": "readweave",
-      "description": "Distill books, web writings, video, audio, documentation, and discussions into elegant presentations and reading guides. Includes /read, /master, /study, /narrate, /paper, /survey, /digest, /crawl, /research, /watch, /playlist, /listen, /podcast, /docs, and /thread commands.",
+      "description": "Long-form content distilled into presentations and reading guides.",
       "author": {
         "name": "Irfanul Hoque"
       },
       "source": "./readweave",
       "category": "education"
+    },
+    {
+      "name": "smolweave",
+      "description": "The markdown-only edition of readweave. Same rigor, less production.",
+      "author": {
+        "name": "Irfanul Hoque"
+      },
+      "source": "./smolweave",
+      "category": "education"
+    },
+    {
+      "name": "smolsmith",
+      "description": "The markdown-only edition of fablesmith. Same voice, less scaffolding.",
+      "author": {
+        "name": "Irfanul Hoque"
+      },
+      "source": "./smolsmith",
+      "category": "creativity"
     }
   ]
 }
