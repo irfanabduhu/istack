@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "irfanabduhu",
-  "description": "Creative writing and reading tools for Claude Code",
+  "description": "Creative writing, reading, and technical learning tools for Claude Code",
   "owner": {
     "name": "Irfanul Hoque"
   },
@@ -41,6 +41,15 @@
       },
       "source": "./smolsmith",
       "category": "creativity"
+    },
+    {
+      "name": "codemonk",
+      "description": "High-signal technical learning. Language mastery, system design, codebase dissection, and deliberate practice.",
+      "author": {
+        "name": "Irfanul Hoque"
+      },
+      "source": "./codemonk",
+      "category": "education"
     }
   ]
 }
